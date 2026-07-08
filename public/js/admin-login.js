@@ -135,11 +135,12 @@
         btn.classList.add('loading');
         btn.disabled = true;
     
-        fetch('http://localhost:5000/api/admin/login', {
+        fetch('/api/admin/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: email, password: password })
-        })
+            body: JSON.stringify({ email, password })
+          })
+          
         .then(async function (res) {
             let data;
             try {
