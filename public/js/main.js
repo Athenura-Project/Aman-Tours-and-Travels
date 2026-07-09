@@ -91,39 +91,60 @@
 
 
   /* ─── COUNTER ANIMATION ─── */
- const counters = document.querySelectorAll(".count-up");
+  const counters = document.querySelectorAll(".count-up");
 
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (!entry.isIntersecting) return;
-
-    const counter = entry.target;
+  // ✅ Timestamp-based (not increment-based) — agar tab pause/background ho jaaye
+  // ya bfcache se page restore ho, counter turant sahi target tak "catch up" kar leta hai
+  // instead of freezing mid-value.
+  function animateCounter(counter) {
     const target = +counter.dataset.target;
-    let count = 0;
+    const duration = 2000;
+    const startTime = performance.now();
 
-    const duration = 2000; // 2 seconds
-    const increment = target / (duration / 16);
+    function frame(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const value = Math.floor(progress * target);
+      counter.textContent = value.toLocaleString();
 
-    function updateCounter() {
-      count += increment;
-
-      if (count < target) {
-        counter.textContent = Math.floor(count).toLocaleString();
-        requestAnimationFrame(updateCounter);
+      if (progress < 1) {
+        counter.dataset.rafId = requestAnimationFrame(frame);
       } else {
         counter.textContent = target.toLocaleString();
+        counter.dataset.animated = 'true';
       }
     }
 
-    updateCounter();
+    counter.dataset.rafId = requestAnimationFrame(frame);
+  }
 
-    observer.unobserve(counter);
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const counter = entry.target;
+      if (counter.dataset.animated === 'true') return; // already done, skip
+      animateCounter(counter);
+      observer.unobserve(counter);
+    });
+  }, {
+    threshold: 0.5
   });
-}, {
-  threshold: 0.5
-});
 
-counters.forEach(counter => observer.observe(counter));
+  counters.forEach(counter => observer.observe(counter));
+
+  // ✅ Agar page bfcache se restore hua (back/forward navigation bina fresh reload ke),
+  // koi bhi counter jo beech mein atka reh gaya tha, turant final target pe set kar do.
+  window.addEventListener('pageshow', (event) => {
+    if (event.persisted) {
+      document.querySelectorAll('.count-up').forEach(counter => {
+        const rafId = counter.dataset.rafId;
+        if (rafId) cancelAnimationFrame(+rafId);
+        const target = +counter.dataset.target;
+        counter.textContent = target.toLocaleString();
+        counter.dataset.animated = 'true';
+      });
+    }
+  });
 
 
   /* ─── PACKAGE TABS ─── */

@@ -29,29 +29,8 @@
     return map[cat] || (cat || '').replace(/-/g, ' ').replace(/\b\w/g, function (l) { return l.toUpperCase(); });
   }
 
-  /* ══════════ Update Stat Numbers ══════════ */
   function updateStats(stats) {
-    if (!stats) return;
-
-    var vc = stats.totalVehicles || stats.vehicleCount || 0;
-    var pc = stats.totalPackages || stats.activePackageCount || stats.packageCount || 0;
-
-    /* Stats strip — .count-up elements: [Years, Vehicles, Destinations, Travellers] */
-    var counts = $$('.count-up');
-    if (counts[1] && vc > 0) counts[1].dataset.target = vc;
-    if (counts[2] && pc > 0) { counts[2].dataset.target = pc; /* repurpose Destinations slot for packages if needed */ }
-
-    /* Hero floating cards — .stat-card-num elements: [Travellers, Vehicles, Destinations] */
-    var heroNums = $$('.stat-card-num');
-    if (heroNums[1] && vc > 0) heroNums[1].innerHTML = vc + '<span>+</span>';
-    if (heroNums[2] && pc > 0) {
-      heroNums[2].innerHTML = pc + '<span>+</span>';
-      var lbl = heroNums[2].nextElementSibling;
-      if (lbl) lbl.textContent = 'Tour Packages';
-    }
-
-    /* Re-trigger count-up if the function is global */
-    if (typeof window.initCountUp === 'function') window.initCountUp();
+    return;
   }
 
   /* ══════════ Vehicle Card Builder ══════════ */
