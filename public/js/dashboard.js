@@ -402,14 +402,14 @@ function renderDashboardStats(d) {
     var grid = document.getElementById('statsGrid');
     if (grid) {
         var stats = [
-            { label: 'Total Vehicles', value: d.totalVehicles || 0, icon: '🚗', color: 'maroon' },
-            { label: 'Active Vehicles', value: d.activeVehicles || 0, icon: '✅', color: 'green' },
-            { label: 'Total Packages', value: d.totalPackages || 0, icon: '📦', color: 'blue' },
-            { label: 'Total Bookings', value: d.totalBookings || 0, icon: '📅', color: 'orange' },
-            { label: 'Pending Bookings', value: d.pendingBookings || 0, icon: '⏳', color: 'gold' }
+            { label: 'Total Vehicles', value: d.totalVehicles || 0, icon: '<svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="8" rx="2"/><circle cx="7" cy="19" r="2"/><circle cx="17" cy="19" r="2"/><path d="m5 11 1.5-4h11L19 11"/></svg>', color: 'maroon' },
+            { label: 'Active Vehicles', value: d.activeVehicles || 0, icon: '<svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>', color: 'green' },
+            { label: 'Total Packages', value: d.totalPackages || 0, icon: '<svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>', color: 'blue' },
+            { label: 'Total Bookings', value: d.totalBookings || 0, icon: '<svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>', color: 'orange' },
+            { label: 'Pending Bookings', value: d.pendingBookings || 0, icon: '<svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>', color: 'gold' }
         ];
         grid.innerHTML = stats.map(function (s) {
-            return '<div class="stat-card"><div class="stat-top"><div class="stat-icon ' + s.color + '" style="font-size:20px">' + s.icon + '</div></div><div class="stat-label">' + s.label + '</div><div class="stat-value">' + s.value + '</div></div>';
+            return '<div class="stat-card"><div class="stat-top"><div class="stat-icon ' + s.color + '" style="display:flex;align-items:center;justify-content:center">' + s.icon + '</div></div><div class="stat-label">' + s.label + '</div><div class="stat-value">' + s.value + '</div></div>';
         }).join('');
     }
     renderRevenueCard(d);
@@ -418,7 +418,7 @@ function renderDashboardStats(d) {
 function renderRevenueCard(d) {
     var card = document.getElementById('revenueCard');
     if (!card) return;
-    card.innerHTML = '<div class="revenue-icon">💰</div><div class="revenue-info"><div class="revenue-label">Revenue</div><div class="revenue-value">' + formatCurrency(d.totalRevenue || 0) + '</div><div class="revenue-trend">↑ 18.6% from last month</div></div>';
+    card.innerHTML = '<div class="revenue-icon" style="display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div class="revenue-info"><div class="revenue-label">Revenue</div><div class="revenue-value">' + formatCurrency(d.totalRevenue || 0) + '</div><div class="revenue-trend">↑ 18.6% from last month</div></div>';
 }
 
 /* ═══════════════════════════
